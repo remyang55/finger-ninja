@@ -1,8 +1,18 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
+	ofSetVerticalSync(true);
+	ofSetFrameRate(60);
 
+	for (int i = 0; i < 100; ++i) {
+		Particle particle;
+		float vx = ofRandom(-2, 2);
+		float vy = ofRandom(-2, 2);
+		particle.SetPos(500, 400);
+		particle.SetVel(vx, vy);
+		particles.push_back(particle);
+	}
 }
 
 //--------------------------------------------------------------

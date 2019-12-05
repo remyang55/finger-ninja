@@ -3,7 +3,10 @@
 
 #include "ofMain.h"
 
+constexpr kDefaultRadius = 2;
+
 class Particle {
+
 public:
 	Particle();
 
@@ -14,6 +17,7 @@ public:
 	void ResetAcc();
 
 	void UpdateState();
+	void Draw() const;
 
 	ofVec2f GetPos() const;
 	ofVec2f GetVel() const;
@@ -23,6 +27,7 @@ private:
 	ofVec2f s_;  // position vector
 	ofVec2f v_;  // velocity vector
 	ofVec2f a_;  // acceleration vector
+	int radius_;
 };
 
 #endif  // PARTICLE_H_

@@ -4,6 +4,7 @@ Particle::Particle() {
 	SetPos(0, 0);
 	SetVel(0, 0);
 	SetAcc(0, 0);
+	radius_ = kDefaultRadius;
 }
 
 void Particle::SetPos(float sx, float sy) { 
@@ -30,6 +31,10 @@ void Particle::ResetAcc() {
 void Particle::UpdateState() {
 	v_ += a_;  // v = v0 + at
 	s_ += v_;  // s = s0 + vt
+}
+
+void Particle::Draw() const { 
+	ofDrawCircle(s_.x, s_.y, radius_); 
 }
 
 ofVec2f Particle::GetPos() const { 
