@@ -1,6 +1,7 @@
 #include "ofApp.h"
 
-//--------------------------------------------------------------
+#include "particle.h"
+
 void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(60);
@@ -15,14 +16,19 @@ void ofApp::setup() {
 	}
 }
 
-//--------------------------------------------------------------
 void ofApp::update(){
-
+	for (Particle& particle : particles) {
+		particle.ResetAcc();
+		//note: add acc/forces here
+		particle.UpdateState();
+	}
 }
 
-//--------------------------------------------------------------
 void ofApp::draw(){
-
+	ofSetColor(ofColor::black);
+	for (const Particle& particle : particles) {
+		particle.Draw();
+	}
 }
 
 //--------------------------------------------------------------
