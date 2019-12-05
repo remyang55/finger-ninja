@@ -10,6 +10,10 @@ public:
 	void SetPos(float sx, float sy);
 	void SetVel(float vx, float vy);
 	void SetAcc(float ax, float ay);
+	void AddAcc(float ax, float ay);
+	void ResetAcc();
+
+	void UpdateState();
 
 	ofVec2f GetPos() const;
 	ofVec2f GetVel() const;

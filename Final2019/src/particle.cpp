@@ -18,6 +18,20 @@ void Particle::SetAcc(float ax, float ay) {
 	a_.set(ax, ay); 
 }
 
+void Particle::AddAcc(float ax, float ay) {
+	a_.x += ax;
+	a_.y += ay;
+}
+
+void Particle::ResetAcc() {
+	a_.set(0, 0);
+}
+
+void Particle::UpdateState() {
+	v_ += a_;  // v = v0 + at
+	s_ += v_;  // s = s0 + vt
+}
+
 ofVec2f Particle::GetPos() const { 
 	return s_; 
 }
