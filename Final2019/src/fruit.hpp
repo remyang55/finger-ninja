@@ -31,6 +31,7 @@ public:
 	ofVec2f GetPos() const;
 	ofVec2f GetVel() const;
 	ofVec2f GetAcc() const;
+	std::vector<Particle> GetParticles() const;
 	bool IsHit() const;
 
 private:

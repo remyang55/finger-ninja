@@ -10,6 +10,7 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
+	cannon.CheckFruits(fruits);
 	for (auto &fruit : fruits) {
 		fruit.ResetAcc();
 		if (!fruit.IsHit()) {

@@ -1,6 +1,7 @@
 #include "fruit.hpp"
 
 #include <cmath>
+#include <vector>
 
 #include "ofMain.h"
 
@@ -102,6 +103,10 @@ ofVec2f Fruit::GetVel() const {
 
 ofVec2f Fruit::GetAcc() const { 
 	return a_; 
+}
+
+std::vector<Particle> Fruit::GetParticles() const {
+	return particles_;
 }
 
 bool Fruit::IsHit() const {

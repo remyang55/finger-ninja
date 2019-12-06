@@ -11,6 +11,7 @@ public:
 	FruitCannon(int left_bound, int right_bound, int height, int speed);
 
 	void FireFruit(std::vector<Fruit> &fruits);
+	void CheckFruits(std::vector<Fruit> &fruits);
 
 private:
 	int left_bound_;

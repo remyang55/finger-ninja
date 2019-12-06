@@ -20,3 +20,26 @@ void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
 	
 	fruits.push_back(fruit);
 }
+
+void FruitCannon::CheckFruits(std::vector<Fruit> &fruits) {
+	auto it = fruits.begin();
+	while (it != fruits.end()) {
+		bool is_fruit_out_of_screen = true;
+
+		auto fruit = *it;
+		for (const auto& particle : fruit.GetParticles()) {
+			if (particle.GetPos().x > 0
+					&& particle.GetPos().x < right_bound_
+					&& particle.GetPos().y < height_) {
+				is_fruit_out_of_screen = false;
+				break;
+			}
+		}
+
+		if (fruit.IsHit() && is_fruit_out_of_screen) {
+			it = fruits.erase(it);
+		} else {
+			++it;
+		}
+	}
+}
