@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "particle.h"
+#include "fruit.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -23,5 +23,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		std::vector<Particle> particles;
+		Fruit fruit{500, 400};
 };

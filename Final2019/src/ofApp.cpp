@@ -1,34 +1,23 @@
 #include "ofApp.h"
 
-#include "particle.h"
+#include "fruit.hpp"
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(60);
 
-	for (int i = 0; i < 100; ++i) {
-		Particle particle;
-		float vx = ofRandom(-2, 2);
-		float vy = ofRandom(-2, 2);
-		particle.SetPos(500, 400);
-		particle.SetVel(vx, vy);
-		particles.push_back(particle);
-	}
+	fruit.SetVel(1, 1);
 }
 
 void ofApp::update(){
-	for (Particle& particle : particles) {
-		particle.ResetAcc();
-		//note: add acc/forces here
-		particle.UpdateState();
-	}
+	fruit.ResetAcc();
+	//add forces here
+	fruit.UpdateState();
 }
 
 void ofApp::draw(){
 	ofSetColor(ofColor::black);
-	for (const Particle& particle : particles) {
-		particle.Draw();
-	}
+	fruit.Draw();
 }
 
 //--------------------------------------------------------------

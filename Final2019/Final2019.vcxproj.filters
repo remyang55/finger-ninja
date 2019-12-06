@@ -13,6 +13,7 @@
     <ClCompile Include="src\ofApp.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\fruit.cpp" />
     <ClCompile Include="src\particle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +28,7 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\fruit.hpp" />
     <ClInclude Include="src\particle.h" />
   </ItemGroup>
   <ItemGroup>

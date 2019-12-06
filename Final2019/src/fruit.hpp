@@ -1,14 +1,21 @@
-#ifndef PARTICLE_H_
-#define PARTICLE_H_
+#ifndef FRUIT_HPP_
+#define FRUIT_HPP_
+
+#include <vector>
 
 #include "ofMain.h"
 
-constexpr int kDefaultRadius = 2;
+#include "particle.hpp"
 
-class Particle {
+constexpr int kRadius = 30; //radius of the whole fruit
+constexpr int kNumParticles = 500; //number of particles the fruit is composed of
+constexpr float kPi = 3.14159;
+
+class Fruit {
 
 public:
-	Particle();
+	Fruit();
+	Fruit(float sx, float sy);
 
 	void SetPos(float sx, float sy);
 	void SetVel(float vx, float vy);
@@ -27,7 +34,7 @@ private:
 	ofVec2f s_;  // position vector
 	ofVec2f v_;  // velocity vector
 	ofVec2f a_;  // acceleration vector
-	int radius_;
+	std::vector<Particle> particles_;
 };
 
-#endif  // PARTICLE_H_
+#endif  // FRUIT_HPP_
