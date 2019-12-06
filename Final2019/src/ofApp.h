@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofGraphics.h"
 
 #include "fruit.hpp"
 #include "fruit_cannon.hpp"
@@ -36,8 +37,11 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	ofTrueTypeFont font;
+
 	std::vector<Fruit> fruits;
 	FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + kCannonHeightBelowScreen,
 		kCannonSpeed, kCannonMinAngle, kCannonMaxAngle };
 	float last_time; //the last time the cannon was fired
+	int player_pts;
 };
