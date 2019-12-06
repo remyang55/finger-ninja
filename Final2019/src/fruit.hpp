@@ -23,18 +23,22 @@ public:
 	void AddAcc(float ax, float ay);
 	void ResetAcc();
 
+	void HitFruit();
+
 	void UpdateState();
 	void Draw() const;
 
 	ofVec2f GetPos() const;
 	ofVec2f GetVel() const;
 	ofVec2f GetAcc() const;
+	bool IsHit() const;
 
 private:
 	ofVec2f s_;  // position vector
 	ofVec2f v_;  // velocity vector
 	ofVec2f a_;  // acceleration vector
 	std::vector<Particle> particles_;
+	int hit_count_;
 };
 
 #endif  // FRUIT_HPP_

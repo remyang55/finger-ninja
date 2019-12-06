@@ -1,5 +1,6 @@
 # Project Development Log
 
+* December 05: Created the basic structure and movement of a Fruit object
 * December 04: Changed project idea
   * Realized that my original idea was too simple, and required very little of oF's features
   * Gathered info on the necessary librairies needed to finish new project idea
