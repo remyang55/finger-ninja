@@ -17,7 +17,7 @@ void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
 
 	Fruit fruit{ x_coord, y_coord };
 	fruit.SetVel(r * cos(theta), -r * sin(theta));
-	
+
 	fruits.push_back(fruit);
 }
 

@@ -62,8 +62,8 @@ void Fruit::ResetAcc() {
 	}
 }
 
-void Fruit::HitFruit() {
-	hit_count_ += 1;
+void Fruit::HitFruit(int force) {
+	hit_count_ += force;
 }
 
 void Fruit::UpdateState() {
@@ -79,7 +79,7 @@ void Fruit::UpdateState() {
 	} else {
 		for (auto& particle : particles_) {
 			if (hit_count_ == 1) {
-				particle.SetVel(ofRandom(-1, 1), ofRandom(-2, 2));
+				particle.SetVel(ofRandom(-4, 4), ofRandom(-4, 4));
 			}
 			particle.AddVel(particle.GetAcc().x, particle.GetAcc().y);
 			particle.AddPos(particle.GetVel().x, particle.GetVel().y);

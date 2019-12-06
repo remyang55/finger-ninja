@@ -17,7 +17,7 @@ private:
 	int left_bound_;
 	int right_bound_;
 	int height_;
-	int speed_;
+	int speed_; //speed at which the fruits are fired
 	std::vector<Fruit> fruits_;
 };
 

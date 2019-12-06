@@ -26,5 +26,8 @@ class ofApp : public ofBaseApp {
 
 
 		std::vector<Fruit> fruits;
-		FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + 5, 15 };
+		FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + 5, 20 };
+
+		int cannon_delay;
+		float last_time;
 };
