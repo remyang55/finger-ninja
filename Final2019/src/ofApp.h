@@ -3,8 +3,9 @@
 #include "ofMain.h"
 
 #include "fruit.hpp"
+#include "fruit_cannon.hpp"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
 	public:
 		void setup();
@@ -23,5 +24,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		Fruit fruit{300, 100};
+
+		std::vector<Fruit> fruits;
+		FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + 5, 15 };
 };

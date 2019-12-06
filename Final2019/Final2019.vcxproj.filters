@@ -15,6 +15,7 @@
     </ClCompile>
     <ClCompile Include="src\fruit.cpp" />
     <ClCompile Include="src\particle.cpp" />
+    <ClCompile Include="src\fruit_cannon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -30,6 +31,8 @@
     </ClInclude>
     <ClInclude Include="src\fruit.hpp" />
     <ClInclude Include="src\particle.h" />
+    <ClInclude Include="src\particle.hpp" />
+    <ClInclude Include="src\fruit_cannon.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
