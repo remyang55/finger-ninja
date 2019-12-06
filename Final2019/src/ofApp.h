@@ -23,5 +23,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		Fruit fruit{500, 400};
+		Fruit fruit{300, 100};
 };

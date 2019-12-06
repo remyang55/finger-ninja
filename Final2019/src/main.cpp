@@ -1,7 +1,10 @@
 #include "ofApp.h"
 #include "ofMain.h"
 
+constexpr int kMaxX = 1024;
+constexpr int kMaxY = 768;
+
 int main() {
-	ofSetupOpenGL(1024, 768, OF_WINDOW);
+	ofSetupOpenGL(kMaxX, kMaxY, OF_WINDOW);
     ofRunApp(new ofApp());
 }
