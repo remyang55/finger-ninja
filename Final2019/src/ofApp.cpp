@@ -4,16 +4,14 @@
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
-	ofSetFrameRate(60);
-
-	cannon_delay = 2000;
+	ofSetFrameRate(kFps);
+	
 	last_time = 0;
-
 	cannon.FireFruit(fruits);
 }
 
 void ofApp::update() {
-	if (ofGetElapsedTimeMillis() - last_time >= cannon_delay) {
+	if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
 		cannon.FireFruit(fruits);
 		last_time = ofGetElapsedTimeMillis();
 	}
@@ -22,14 +20,13 @@ void ofApp::update() {
 	for (auto &fruit : fruits) {
 		fruit.ResetAcc();
 		if (!fruit.IsHit()) {
-			fruit.AddAcc(0, 0.3);
+			fruit.AddAcc(0, kAccFruitIntact);
 		}
 		else {
-			fruit.AddAcc(0, 0.6);
+			fruit.AddAcc(0, kAccFruitHit);
 		}
 		fruit.UpdateState();
 	}
-	
 }
 
 void ofApp::draw() {
@@ -59,7 +56,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 	for (auto &fruit : fruits) {
 		float dist_to_fruit = sqrt(pow(x - fruit.GetPos().x, 2) + pow(y - fruit.GetPos().y, 2));
 		if (dist_to_fruit < kRadius) {
-			fruit.HitFruit(1);
+			fruit.HitFruit();
 		}
 	}
 }

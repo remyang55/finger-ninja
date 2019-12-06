@@ -23,7 +23,7 @@ public:
 	void AddAcc(float ax, float ay);
 	void ResetAcc();
 
-	void HitFruit(int force);
+	void HitFruit();
 
 	void UpdateState();
 	void Draw() const;
