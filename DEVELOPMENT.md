@@ -3,6 +3,7 @@
 * December 06: Game mechanics
   * Handled Fruit collision with mouse, and animate an explosion when this happens
   * Made a FruitCannon that shoots Fruit objects from the bottom of the game screen
+  * Recorded the player's points
 * December 05: Created the basic structure and movement of a Fruit object
 * December 04: Changed project idea
   * Realized that my original idea was too simple, and required very little of oF's features
