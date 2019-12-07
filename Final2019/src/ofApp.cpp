@@ -5,7 +5,11 @@
 void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(kFps);
-	
+
+	webcam.initGrabber(ofGetWidth(), ofGetHeight());
+	webcam_render.allocate(ofGetWidth(), ofGetHeight());
+
+
 	font.load("kiyana.otf", 50);
 	last_time = 0;
 	player_pts = 0;
@@ -13,6 +17,14 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
+	webcam.update();
+	if (webcam.isFrameNew()) {
+		auto pixels = webcam.getPixels();
+		pixels.mirror(false, true);
+		webcam_render.setFromPixels(pixels.getData(), ofGetWidth(), ofGetHeight());
+	}
+
+
 	if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
 		cannon.FireFruit(fruits);
 		last_time = ofGetElapsedTimeMillis();
@@ -32,6 +44,9 @@ void ofApp::update() {
 }
 
 void ofApp::draw() {
+	webcam_render.draw(0, 0);
+
+
 	ofSetColor(ofColor::black);
 	font.drawString("Points: " + std::to_string(player_pts), 6, 60);
 	ofSetColor(ofColor::orange);

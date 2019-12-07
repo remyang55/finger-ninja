@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofGraphics.h"
+#include "ofxOpenCv.h"
 
 #include "fruit.hpp"
 #include "fruit_cannon.hpp"
@@ -39,9 +39,15 @@ public:
 
 	ofTrueTypeFont font;
 
+	//VARIABLES FOR GAME
 	std::vector<Fruit> fruits;
 	FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + kCannonHeightBelowScreen,
 		kCannonSpeed, kCannonMinAngle, kCannonMaxAngle };
 	float last_time; //the last time the cannon was fired
 	int player_pts;
+
+	//VARIABLES FOR HAND TRACKING
+	ofVideoGrabber webcam;
+	ofxCvColorImage webcam_render;
+
 };
