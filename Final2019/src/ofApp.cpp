@@ -19,9 +19,9 @@ void ofApp::setup() {
 	*/
 	
 	font.load("kiyana.otf", 50);
-	last_time = 0;
 	player_pts = 0;
-	cannon.FireFruit(fruits);
+	is_game_over = false;
+	last_time = 0;
 }
 
 void ofApp::update() {
@@ -66,21 +66,23 @@ void ofApp::update() {
 	}
 	*/
 
-	if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
-		cannon.FireFruit(fruits);
-		last_time = ofGetElapsedTimeMillis();
-	}
+	if (!is_game_over) {
+		if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
+			cannon.FireFruit(fruits);
+			last_time = ofGetElapsedTimeMillis();
+		}
 
-	cannon.CheckFruits(fruits);
-	for (auto &fruit : fruits) {
-		fruit.ResetAcc();
-		if (!fruit.IsHit()) {
-			fruit.AddAcc(0, kAccFruitIntact);
+		cannon.CheckFruits(fruits);
+		for (auto& fruit : fruits) {
+			fruit.ResetAcc();
+			if (!fruit.IsHit()) {
+				fruit.AddAcc(0, kAccFruitIntact);
+			}
+			else {
+				fruit.AddAcc(0, kAccFruitHit);
+			}
+			fruit.UpdateState();
 		}
-		else {
-			fruit.AddAcc(0, kAccFruitHit);
-		}
-		fruit.UpdateState();
 	}
 }
 
@@ -92,11 +94,16 @@ void ofApp::draw() {
 	target_contour.draw();	
 	ofDrawCircle(target_loc.x, target_loc.y, 3);
 	*/
-
-	ofSetColor(ofColor::black);
-	font.drawString("Points: " + std::to_string(player_pts), 6, 60);
-	for (auto &fruit : fruits) {
-		fruit.Draw();
+	if (!is_game_over) {
+		ofSetColor(ofColor::black);
+		font.drawString("Points: " + std::to_string(player_pts), 6, 60);
+		for (auto& fruit : fruits) {
+			fruit.Draw();
+		}
+	}
+	else {
+		font.drawString("Game Over!", 350, 350);
+		font.drawString("You scored " + std::to_string(player_pts) + " points", 260, 420);
 	}
 }
 
@@ -120,6 +127,11 @@ void ofApp::mouseDragged(int x, int y, int button) {
 	for (auto &fruit : fruits) {
 		float dist_to_fruit = sqrt(pow(x - fruit.GetPos().x, 2) + pow(y - fruit.GetPos().y, 2));
 		if (dist_to_fruit < kRadius && !fruit.IsHit()) {
+			if (fruit.IsExplosive()) {
+				is_game_over = true;
+				break;
+			}
+
 			++player_pts;
 			fruit.HitFruit();
 		}
