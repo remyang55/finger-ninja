@@ -26,6 +26,7 @@ void ofApp::setup() {
 	
 	font.load("kiyana.otf", 50);
 	player_pts = 0;
+	player_hp = 3;
 	is_game_over = false;
 	cannon_delay = kCannonDelayInitial;
 	last_time = 0;
@@ -80,7 +81,11 @@ void ofApp::update() {
 			last_time = ofGetElapsedTimeMillis();
 		}
 
-		cannon.CheckFruits(fruits);
+		cannon.CheckFruits(fruits, player_hp);
+		if (player_hp == 0) {
+			is_game_over = true;
+		}
+
 		for (auto &fruit : fruits) {
 			fruit.ResetAcc();
 			if (!fruit.IsHit()) {
@@ -105,6 +110,7 @@ void ofApp::draw() {
 	if (!is_game_over) {
 		ofSetColor(ofColor::black);
 		font.drawString("Points: " + std::to_string(player_pts), 6, 60);
+		font.drawString("Lives: " + std::to_string(player_hp), 6, 120);
 		for (const auto &fruit : fruits) {
 			fruit.Draw();
 		}

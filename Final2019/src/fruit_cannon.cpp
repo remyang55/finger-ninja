@@ -31,7 +31,7 @@ void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
 	fruits.push_back(fruit);
 }
 
-void FruitCannon::CheckFruits(std::vector<Fruit> &fruits) {
+void FruitCannon::CheckFruits(std::vector<Fruit> &fruits, int &player_hp) {
 	auto it = fruits.begin();
 	while (it != fruits.end()) {
 		bool is_fruit_out_of_screen = true;
@@ -46,7 +46,10 @@ void FruitCannon::CheckFruits(std::vector<Fruit> &fruits) {
 			}
 		}
 
-		if (fruit.IsHit() && is_fruit_out_of_screen) {
+		if (is_fruit_out_of_screen) {
+			if (!fruit.IsHit() && !fruit.IsExplosive()) {
+				--player_hp;
+			}
 			it = fruits.erase(it);
 		} else {
 			++it;

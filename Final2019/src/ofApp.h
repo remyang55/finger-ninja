@@ -46,6 +46,7 @@ public:
 
 	//VARIABLES FOR GAME
 	int player_pts;
+	int player_hp;
 	bool is_game_over;
 	std::vector<Fruit> fruits;
 	FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + kCannonHeightBelowScreen,

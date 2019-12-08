@@ -12,7 +12,7 @@ public:
 		float max_angle);
 
 	void FireFruit(std::vector<Fruit> &fruits);
-	void CheckFruits(std::vector<Fruit> &fruits);
+	void CheckFruits(std::vector<Fruit> &fruits, int &player_hp);
 
 private:
 	int left_bound_; //x coordinate of left side of screen
