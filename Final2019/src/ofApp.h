@@ -17,6 +17,8 @@ constexpr int kCannonDelay = 2000; //milliseconds
 constexpr float kAccFruitIntact = 0.3; // vertical acceleration of fruits before hit
 constexpr float kAccFruitHit = 0.6; // vertical acceleration of fruits' particles after hit
 
+constexpr int kWindowWidth = 512; //width of window to draw webcam on
+constexpr int kWindowHeight = 384; //height of window to draw webcam on
 
 class ofApp : public ofBaseApp {
 
@@ -49,5 +51,9 @@ public:
 	//VARIABLES FOR HAND TRACKING
 	ofVideoGrabber webcam;
 	ofxCvColorImage webcam_render;
+	ofxCvColorImage webcam_render_hsv;
+	ofxCvGrayscaleImage hue;
+	ofxCvGrayscaleImage sat;
+	ofxCvGrayscaleImage val;
 
 };
