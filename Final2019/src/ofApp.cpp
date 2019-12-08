@@ -13,6 +13,9 @@ void ofApp::setup() {
 	sat.allocate(kWindowWidth, kWindowHeight);
 	val.allocate(kWindowWidth, kWindowHeight);
 
+	mask_pixels = new unsigned char[kWindowWidth * kWindowHeight];
+	target.allocate(kWindowWidth, kWindowHeight);
+
 	/*
 	font.load("kiyana.otf", 50);
 	last_time = 0;
@@ -30,8 +33,8 @@ void ofApp::update() {
 
 		webcam_render_hsv = webcam_render;
 		webcam_render_hsv.convertRgbToHsv();
-
 		webcam_render_hsv.convertToGrayscalePlanarImages(hue, sat, val);
+
 		hue.flagImageChanged();
 		sat.flagImageChanged();
 		val.flagImageChanged();
@@ -39,6 +42,19 @@ void ofApp::update() {
 		unsigned char *hue_pixels = hue.getPixels().getData();
 		unsigned char *sat_pixels = sat.getPixels().getData();
 		unsigned char *val_pixels = val.getPixels().getData();
+
+		for (int i = 0; i < kWindowWidth * kWindowHeight; ++i) {
+			if ((hue_pixels[i] >= kHueMin && hue_pixels[i] <= kHueMax)
+					&& (sat_pixels[i] >= kSatMin && sat_pixels[i] <= kSatMax)
+					&& (val_pixels[i] >= kValMin && val_pixels[i] <= kValMax)) {
+				mask_pixels[i] = kWhitePixel;
+			} else {
+				mask_pixels[i] = kBlackPixel;
+			}
+		}
+		
+		target.setFromPixels(mask_pixels, kWindowWidth, kWindowHeight);
+		target_contour.findContours(target, 50, (kWindowWidth * kWindowHeight) / 3, 1, false, true);
 	}
 
 	/*
@@ -64,6 +80,7 @@ void ofApp::update() {
 
 void ofApp::draw() {
 	webcam_render.draw(0, 0);
+	target_contour.draw();
 
 	/*
 	ofSetColor(ofColor::black);

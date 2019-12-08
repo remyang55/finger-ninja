@@ -1,5 +1,8 @@
 # Project Development Log
 
+* December 07: Object tracking
+  * Grabbed live video from the user's webcam
+  * Tracked an object of a specific color from the video
 * December 06: Game mechanics
   * Handled Fruit collision with mouse, and animate an explosion when this happens
   * Made a FruitCannon that shoots Fruit objects from the bottom of the game screen
