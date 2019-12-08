@@ -3,7 +3,7 @@
 
 #include "ofMain.h"
 
-constexpr int kDefaultParticleRadius = 2;
+constexpr int kDefaultParticleRadius = 3;
 
 class Particle {
 

@@ -1,6 +1,12 @@
 #include "ofApp.h"
 
+#include <cmath>
+
+#include "ofMain.h"
+#include "ofxOpenCv.h"
+
 #include "fruit.hpp"
+#include "fruit_cannon.hpp"
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
@@ -21,6 +27,7 @@ void ofApp::setup() {
 	font.load("kiyana.otf", 50);
 	player_pts = 0;
 	is_game_over = false;
+	cannon_delay = kCannonDelayInitial;
 	last_time = 0;
 }
 
@@ -67,13 +74,14 @@ void ofApp::update() {
 	*/
 
 	if (!is_game_over) {
-		if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
+		if (ofGetElapsedTimeMillis() - last_time >= cannon_delay) {
 			cannon.FireFruit(fruits);
+			cannon_delay = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
 			last_time = ofGetElapsedTimeMillis();
 		}
 
 		cannon.CheckFruits(fruits);
-		for (auto& fruit : fruits) {
+		for (auto &fruit : fruits) {
 			fruit.ResetAcc();
 			if (!fruit.IsHit()) {
 				fruit.AddAcc(0, kAccFruitIntact);
@@ -97,32 +105,16 @@ void ofApp::draw() {
 	if (!is_game_over) {
 		ofSetColor(ofColor::black);
 		font.drawString("Points: " + std::to_string(player_pts), 6, 60);
-		for (auto& fruit : fruits) {
+		for (const auto &fruit : fruits) {
 			fruit.Draw();
 		}
-	}
-	else {
+	} else {
+		ofSetColor(ofColor::black);
 		font.drawString("Game Over!", 350, 350);
 		font.drawString("You scored " + std::to_string(player_pts) + " points", 260, 420);
 	}
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button) {
 	for (auto &fruit : fruits) {
 		float dist_to_fruit = sqrt(pow(x - fruit.GetPos().x, 2) + pow(y - fruit.GetPos().y, 2));
@@ -138,37 +130,6 @@ void ofApp::mouseDragged(int x, int y, int button) {
 	}
 }
 
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
+float ofApp::GetCannonDelayFactor(int elapsed_time) {
+	return 3 / (1 + exp(-0.02 * (elapsed_time / 1000) + 2)) + 0.7;
 }

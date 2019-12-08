@@ -12,12 +12,6 @@ Fruit::Fruit() : Fruit(0, 0, false) {
 
 Fruit::Fruit(float sx, float sy, bool is_explosive) {
 	is_explosive_ = is_explosive;
-	if (is_explosive) {
-		fruit_color_ = kExplosiveFruitColor; 
-	} else {
-		fruit_color_ = kNormalFruitColor;
-	}
-
 	SetPos(sx, sy);
 	SetVel(0, 0);
 	SetAcc(0, 0);
@@ -96,8 +90,13 @@ void Fruit::UpdateState() {
 }
 
 void Fruit::Draw() const {
-	ofSetColor(fruit_color_);
-	for (const auto& particle : particles_) {
+	if (is_explosive_) {
+		ofSetColor(ofColor::black);
+	} else {
+		ofSetColor(ofColor::orange);
+	}
+
+	for (const auto &particle : particles_) {
 		particle.Draw();
 	}
 }

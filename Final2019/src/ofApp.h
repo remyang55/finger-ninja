@@ -8,11 +8,11 @@
 
 constexpr int kFps = 60;
 
+constexpr int kCannonDelayInitial = 2000; //in milliseconds
 constexpr int kCannonHeightBelowScreen = 5;
 constexpr int kCannonSpeed = 20;
 constexpr float kCannonMinAngle = kPi / 3;
 constexpr float kCannonMaxAngle = 2 * kPi / 3;
-constexpr int kCannonDelay = 2000; //milliseconds
 
 constexpr float kAccFruitIntact = 0.3; // vertical acceleration of fruits before hit
 constexpr float kAccFruitHit = 0.6; // vertical acceleration of fruits' particles after hit
@@ -38,17 +38,9 @@ public:
 	void update();
 	void draw();
 
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y );
 	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void mouseEntered(int x, int y);
-	void mouseExited(int x, int y);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+	
+	float GetCannonDelayFactor(int elapsed_time); //elapsed_time in milliseconds
 
 	ofTrueTypeFont font;
 
@@ -58,6 +50,8 @@ public:
 	std::vector<Fruit> fruits;
 	FruitCannon cannon{ 0, ofGetWidth(), ofGetHeight() + kCannonHeightBelowScreen,
 		kCannonSpeed, kCannonMinAngle, kCannonMaxAngle };
+
+	int cannon_delay; //in milliseconds
 	float last_time; //the last time the cannon was fired
 	
 
@@ -70,7 +64,7 @@ public:
 	ofxCvGrayscaleImage sat;
 	ofxCvGrayscaleImage val;
 
-	unsigned char* mask_pixels; //represents a "mask" of the frame based on specified HSV range
+	unsigned char *mask_pixels; //represents a "mask" of the frame based on specified HSV range
 	ofxCvGrayscaleImage target_img;
 	ofxCvContourFinder target_contour;
 	ofVec2f target_loc;

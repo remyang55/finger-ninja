@@ -11,9 +11,6 @@ constexpr int kRadius = 30; //radius of the whole fruit
 constexpr int kNumParticles = 500; //number of particles the fruit is composed of
 constexpr float kPi = 3.14159;
 
-const ofColor kNormalFruitColor = ofColor::orange;
-const ofColor kExplosiveFruitColor = ofColor::black;
-
 class Fruit {
 
 public:
@@ -40,7 +37,6 @@ public:
 
 private:
 	bool is_explosive_;
-	ofColor fruit_color_;
 	ofVec2f s_;  // position vector
 	ofVec2f v_;  // velocity vector
 	ofVec2f a_;  // acceleration vector
