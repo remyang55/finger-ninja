@@ -7,7 +7,7 @@
 
 #include "particle.hpp"
 
-Fruit::Fruit() : Fruit(0, 0) {	
+Fruit::Fruit() : Fruit(0, 0) {
 }
 
 Fruit::Fruit(float sx, float sy) {
@@ -15,6 +15,7 @@ Fruit::Fruit(float sx, float sy) {
 	SetVel(0, 0);
 	SetAcc(0, 0);
 	hit_count_ = 0;
+	update_count_ = 0;
 
 	for (int i = 0; i < kNumParticles; ++i) {
 		float r = ofRandom(0, kRadius);
@@ -24,26 +25,26 @@ Fruit::Fruit(float sx, float sy) {
 	}
 }
 
-void Fruit::SetPos(float sx, float sy) { 
+void Fruit::SetPos(float sx, float sy) {
 	float x_diff = sx - s_.x;
 	float y_diff = sy - s_.y;
 
 	s_.set(sx, sy);
-	for (auto &particle : particles_) {
+	for (auto& particle : particles_) {
 		particle.AddPos(x_diff, y_diff);
 	}
 }
 
-void Fruit::SetVel(float vx, float vy) { 
+void Fruit::SetVel(float vx, float vy) {
 	v_.set(vx, vy);
-	for (auto &particle : particles_) {
+	for (auto& particle : particles_) {
 		particle.SetVel(vx, vy);
 	}
 }
 
-void Fruit::SetAcc(float ax, float ay) { 
+void Fruit::SetAcc(float ax, float ay) {
 	a_.set(ax, ay);
-	for (auto &particle : particles_) {
+	for (auto& particle : particles_) {
 		particle.SetAcc(ax, ay);
 	}
 }
@@ -51,14 +52,14 @@ void Fruit::SetAcc(float ax, float ay) {
 void Fruit::AddAcc(float ax, float ay) {
 	a_.x += ax;
 	a_.y += ay;
-	for (auto &particle : particles_) {
+	for (auto& particle : particles_) {
 		particle.AddAcc(ax, ay);
 	}
 }
 
 void Fruit::ResetAcc() {
 	a_.set(0, 0);
-	for (auto &particle : particles_) {
+	for (auto& particle : particles_) {
 		particle.SetAcc(0, 0);
 	}
 }
@@ -71,10 +72,14 @@ void Fruit::UpdateState() {
 	v_ += a_;  // v = v0 + at
 	s_ += v_;  // s = s0 + vt
 
-	for (auto &particle : particles_) {
+	if (hit_count_ == 1) {
+		++update_count_;
+	}
+
+	for (auto& particle : particles_) {
 
 		//if fruit is hit, make it explode
-		if (hit_count_ == 1) {
+		if (hit_count_ == 1 && update_count_ < 2) {
 			particle.SetVel(ofRandom(-4, 4), ofRandom(-4, 4));
 		}
 
@@ -84,21 +89,21 @@ void Fruit::UpdateState() {
 }
 
 void Fruit::Draw() const {
-	for (const auto &particle : particles_) {
+	for (const auto& particle : particles_) {
 		particle.Draw();
 	}
 }
 
-ofVec2f Fruit::GetPos() const { 
-	return s_; 
+ofVec2f Fruit::GetPos() const {
+	return s_;
 }
 
-ofVec2f Fruit::GetVel() const { 
-	return v_; 
+ofVec2f Fruit::GetVel() const {
+	return v_;
 }
 
-ofVec2f Fruit::GetAcc() const { 
-	return a_; 
+ofVec2f Fruit::GetAcc() const {
+	return a_;
 }
 
 std::vector<Particle> Fruit::GetParticles() const {

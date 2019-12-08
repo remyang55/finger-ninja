@@ -6,6 +6,7 @@ void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofSetFrameRate(kFps);
 
+	/*
 	webcam.setup(kWindowWidth, kWindowHeight);
 	webcam_render.allocate(kWindowWidth, kWindowHeight);
 	webcam_render_hsv.allocate(kWindowWidth, kWindowHeight);
@@ -15,16 +16,16 @@ void ofApp::setup() {
 
 	mask_pixels = new unsigned char[kWindowWidth * kWindowHeight];
 	target_img.allocate(kWindowWidth, kWindowHeight);
-
-	/*
+	*/
+	
 	font.load("kiyana.otf", 50);
 	last_time = 0;
 	player_pts = 0;
 	cannon.FireFruit(fruits);
-	*/
 }
 
 void ofApp::update() {
+	/*
 	webcam.update();
 	if (webcam.isFrameNew()) {
 		auto pixels = webcam.getPixels();
@@ -63,13 +64,12 @@ void ofApp::update() {
 			target_loc.y = target.centroid.y;
 		}
 	}
+	*/
 
-	/*
 	if (ofGetElapsedTimeMillis() - last_time >= kCannonDelay) {
 		cannon.FireFruit(fruits);
 		last_time = ofGetElapsedTimeMillis();
 	}
-	
 
 	cannon.CheckFruits(fruits);
 	for (auto &fruit : fruits) {
@@ -82,24 +82,23 @@ void ofApp::update() {
 		}
 		fruit.UpdateState();
 	}
-	*/
 }
 
 void ofApp::draw() {
+	/*
 	ofSetColor(ofColor::orange);
 
 	webcam_render.draw(0, 0);
 	target_contour.draw();	
 	ofDrawCircle(target_loc.x, target_loc.y, 3);
+	*/
 
-	/*
-	
+	ofSetColor(ofColor::black);
 	font.drawString("Points: " + std::to_string(player_pts), 6, 60);
 	ofSetColor(ofColor::orange);
 	for (auto &fruit : fruits) {
 		fruit.Draw();
 	}
-	*/
 }
 
 //--------------------------------------------------------------
@@ -119,7 +118,6 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button) {
-	/*
 	for (auto &fruit : fruits) {
 		float dist_to_fruit = sqrt(pow(x - fruit.GetPos().x, 2) + pow(y - fruit.GetPos().y, 2));
 		if (dist_to_fruit < kRadius && !fruit.IsHit()) {
@@ -129,7 +127,6 @@ void ofApp::mouseDragged(int x, int y, int button) {
 			fruit.HitFruit();
 		}
 	}
-	*/
 }
 
 //--------------------------------------------------------------

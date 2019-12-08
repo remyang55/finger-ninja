@@ -40,6 +40,7 @@ private:
 	ofVec2f a_;  // acceleration vector
 	std::vector<Particle> particles_;
 	int hit_count_;
+	int update_count_; //number of times update() has been called on the Fruit, after it is hit
 };
 
 #endif  // FRUIT_HPP_
