@@ -3,6 +3,8 @@
 
 #include "fruit.hpp"
 
+constexpr int kExplosivePercentage = 30; //percent chance that the fruit fired is explosive
+
 class FruitCannon {
 
 public:

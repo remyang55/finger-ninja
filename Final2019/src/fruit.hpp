@@ -11,11 +11,14 @@ constexpr int kRadius = 30; //radius of the whole fruit
 constexpr int kNumParticles = 500; //number of particles the fruit is composed of
 constexpr float kPi = 3.14159;
 
+const ofColor kNormalFruitColor = ofColor::orange;
+const ofColor kExplosiveFruitColor = ofColor::black;
+
 class Fruit {
 
 public:
 	Fruit();
-	Fruit(float sx, float sy);
+	Fruit(float sx, float sy, bool is_explosive);
 
 	void SetPos(float sx, float sy);
 	void SetVel(float vx, float vy);
@@ -28,6 +31,7 @@ public:
 	void UpdateState();
 	void Draw() const;
 
+	bool IsExplosive() const;
 	ofVec2f GetPos() const;
 	ofVec2f GetVel() const;
 	ofVec2f GetAcc() const;
@@ -35,6 +39,8 @@ public:
 	bool IsHit() const;
 
 private:
+	bool is_explosive_;
+	ofColor fruit_color_;
 	ofVec2f s_;  // position vector
 	ofVec2f v_;  // velocity vector
 	ofVec2f a_;  // acceleration vector

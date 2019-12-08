@@ -19,7 +19,13 @@ void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
 	float theta = min_angle_ + (max_angle_ - min_angle_) 
 		* (x_coord - left_bound_) / (right_bound_ - left_bound_);
 
-	Fruit fruit{ x_coord, y_coord };
+	bool is_explosive = false;
+	float prob = ofRandom(0, 100);
+	if (prob < kExplosivePercentage) {
+		is_explosive = true;
+	}
+
+	Fruit fruit{ x_coord, y_coord, is_explosive };
 	fruit.SetVel(r * cos(theta), -r * sin(theta));
 
 	fruits.push_back(fruit);

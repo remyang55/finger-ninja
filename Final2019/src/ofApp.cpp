@@ -95,7 +95,6 @@ void ofApp::draw() {
 
 	ofSetColor(ofColor::black);
 	font.drawString("Points: " + std::to_string(player_pts), 6, 60);
-	ofSetColor(ofColor::orange);
 	for (auto &fruit : fruits) {
 		fruit.Draw();
 	}
@@ -121,9 +120,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 	for (auto &fruit : fruits) {
 		float dist_to_fruit = sqrt(pow(x - fruit.GetPos().x, 2) + pow(y - fruit.GetPos().y, 2));
 		if (dist_to_fruit < kRadius && !fruit.IsHit()) {
-			if (!fruit.IsHit()) {
-				++player_pts;
-			}
+			++player_pts;
 			fruit.HitFruit();
 		}
 	}

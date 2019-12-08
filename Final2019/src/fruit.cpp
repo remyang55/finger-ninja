@@ -7,10 +7,17 @@
 
 #include "particle.hpp"
 
-Fruit::Fruit() : Fruit(0, 0) {
+Fruit::Fruit() : Fruit(0, 0, false) {
 }
 
-Fruit::Fruit(float sx, float sy) {
+Fruit::Fruit(float sx, float sy, bool is_explosive) {
+	is_explosive_ = is_explosive;
+	if (is_explosive) {
+		fruit_color_ = kExplosiveFruitColor; 
+	} else {
+		fruit_color_ = kNormalFruitColor;
+	}
+
 	SetPos(sx, sy);
 	SetVel(0, 0);
 	SetAcc(0, 0);
@@ -89,9 +96,14 @@ void Fruit::UpdateState() {
 }
 
 void Fruit::Draw() const {
+	ofSetColor(fruit_color_);
 	for (const auto& particle : particles_) {
 		particle.Draw();
 	}
+}
+
+bool Fruit::IsExplosive() const {
+	return is_explosive_;
 }
 
 ofVec2f Fruit::GetPos() const {
