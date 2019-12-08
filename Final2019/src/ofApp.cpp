@@ -14,7 +14,7 @@ void ofApp::setup() {
 	val.allocate(kWindowWidth, kWindowHeight);
 
 	mask_pixels = new unsigned char[kWindowWidth * kWindowHeight];
-	target.allocate(kWindowWidth, kWindowHeight);
+	target_img.allocate(kWindowWidth, kWindowHeight);
 
 	/*
 	font.load("kiyana.otf", 50);
@@ -53,8 +53,15 @@ void ofApp::update() {
 			}
 		}
 		
-		target.setFromPixels(mask_pixels, kWindowWidth, kWindowHeight);
-		target_contour.findContours(target, 50, (kWindowWidth * kWindowHeight) / 3, 1, false, true);
+		target_img.setFromPixels(mask_pixels, kWindowWidth, kWindowHeight);
+		target_contour.findContours(target_img, 50, (kWindowWidth * kWindowHeight), 1, false, true);
+		
+		//if a target is found
+		if (target_contour.blobs.size() > 0) {
+			ofxCvBlob target = target_contour.blobs[0];
+			target_loc.x = target.centroid.x;
+			target_loc.y = target.centroid.y;
+		}
 	}
 
 	/*
@@ -79,11 +86,14 @@ void ofApp::update() {
 }
 
 void ofApp::draw() {
+	ofSetColor(ofColor::orange);
+
 	webcam_render.draw(0, 0);
-	target_contour.draw();
+	target_contour.draw();	
+	ofDrawCircle(target_loc.x, target_loc.y, 3);
 
 	/*
-	ofSetColor(ofColor::black);
+	
 	font.drawString("Points: " + std::to_string(player_pts), 6, 60);
 	ofSetColor(ofColor::orange);
 	for (auto &fruit : fruits) {

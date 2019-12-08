@@ -69,6 +69,7 @@ public:
 	ofxCvGrayscaleImage val;
 
 	unsigned char* mask_pixels; //represents a "mask" of the frame based on specified HSV range
-	ofxCvGrayscaleImage target;
+	ofxCvGrayscaleImage target_img;
 	ofxCvContourFinder target_contour;
+	ofVec2f target_loc;
 };
