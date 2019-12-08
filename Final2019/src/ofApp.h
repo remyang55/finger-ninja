@@ -17,8 +17,8 @@ constexpr float kCannonMaxAngle = 2 * kPi / 3;
 constexpr float kAccFruitIntact = 0.3; // vertical acceleration of fruits before hit
 constexpr float kAccFruitHit = 0.6; // vertical acceleration of fruits' particles after hit
 
-constexpr int kWindowWidth = 512; //width of window to draw webcam on
-constexpr int kWindowHeight = 384; //height of window to draw webcam on
+constexpr int kDetectionWidth = 256; //width of window to draw webcam on
+constexpr int kDetectionHeight = 192; //height of window to draw webcam on
 
 //HSV (20, 100, 100) -> (30, 255, 255) is the range for yellow
 constexpr int kHueMin = 20;
