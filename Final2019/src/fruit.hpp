@@ -7,6 +7,18 @@
 
 #include "particle.hpp"
 
+/**
+ * This class represents a Fruit that the player will slice to earn points. An important
+ * distinction between this class and the Particle class is that the player actually interacts
+ * with this class e.g. collision detection and adding points to the player.
+ *
+ * Note: the position, velocity, and acceleration vectors in this class are entirely distinct from
+ * those of the Particles in the vector particles_ and must be kept separately because these are
+ * actually used to update the Fruit's central location (which is the reference point to which
+ * collision detection is accomplished), whereas the vectors inside the Particle class are purely
+ * for graphical/animation means.
+ */
+
 constexpr int kRadius = 30; //radius of the whole fruit
 constexpr int kNumParticles = 500; //number of particles the fruit is composed of
 constexpr float kPi = 3.14159;

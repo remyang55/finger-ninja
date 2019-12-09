@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="84086452-02e1-49fd-999c-e3851ddfd8df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Final2019/test/catch.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Final2019/test/tests-main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Final2019/test/tests-particle.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final2019/src/particle.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Final2019/src/particle.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final2019/src/fruit.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Final2019/src/fruit.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final2019/src/particle.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Final2019/src/particle.hpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -61,6 +59,7 @@
       <option name="presentableId" value="Default" />
       <updated>1575910191087</updated>
       <workItem from="1575910195904" duration="2040000" />
+      <workItem from="1575917420317" duration="405000" />
     </task>
     <servers />
   </component>
@@ -72,7 +71,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

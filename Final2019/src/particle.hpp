@@ -3,6 +3,12 @@
 
 #include "ofMain.h"
 
+/**
+ * This class represents one small part of a Fruit. An important distinction between this class
+ * and the Fruit class is that there is no logic checking done here. The only reason for this
+ * class is graphical; that the fruit will look like it is "exploding" when the player slices it.
+ */
+
 constexpr int kDefaultParticleRadius = 3;
 
 class Particle {
