@@ -9,133 +9,133 @@
 #include "fruit_cannon.hpp"
 
 void ofApp::setup() {
-	ofSetVerticalSync(true);
-	ofSetFrameRate(kFps);
-	
-	webcam.setup(kDetectionWidth, kDetectionHeight);
-	webcam_render.allocate(kDetectionWidth, kDetectionHeight);
-	webcam_render_hsv.allocate(kDetectionWidth, kDetectionHeight);
-	hue.allocate(kDetectionWidth, kDetectionHeight);
-	sat.allocate(kDetectionWidth, kDetectionHeight);
-	val.allocate(kDetectionWidth, kDetectionHeight);
+  ofSetVerticalSync(true);
+  ofSetFrameRate(kFps);
 
-	mask_pixels = new unsigned char[kDetectionWidth * kDetectionHeight];
-	target_img.allocate(kDetectionWidth, kDetectionHeight);
-	
-	font.load("kiyana.otf", 50);
-	player_pts = 0;
-	player_hp = 3;
-	is_game_over = false;
-	cannon_delay = kCannonDelayInitial;
-	last_time = 0;
+  font_.load("kiyana.otf", kFontSize);
+
+  player_pts_ = 0;
+  player_hp_ = 3;
+  is_game_over_ = false;
+  cannon_delay_ = kCannonDelayInitial;
+  last_time_ = 0;
+
+  webcam_.setup(kDetectionWidth, kDetectionHeight);
+  webcam_render_.allocate(kDetectionWidth, kDetectionHeight);
+  hue_.allocate(kDetectionWidth, kDetectionHeight);
+  sat_.allocate(kDetectionWidth, kDetectionHeight);
+  val_.allocate(kDetectionWidth, kDetectionHeight);
+
+  mask_pixels_ = new unsigned char[kDetectionWidth * kDetectionHeight];
+  target_img_.allocate(kDetectionWidth, kDetectionHeight);
 }
 
 void ofApp::update() {
-	
-	webcam.update();
-	if (webcam.isFrameNew()) {
-		auto pixels = webcam.getPixels();
-		pixels.mirror(false, true);
-		webcam_render.setFromPixels(pixels.getData(), kDetectionWidth, kDetectionHeight);
-
-		webcam_render_hsv = webcam_render;
-		webcam_render_hsv.convertRgbToHsv();
-		webcam_render_hsv.convertToGrayscalePlanarImages(hue, sat, val);
-
-		hue.flagImageChanged();
-		sat.flagImageChanged();
-		val.flagImageChanged();
-
-		unsigned char *hue_pixels = hue.getPixels().getData();
-		unsigned char *sat_pixels = sat.getPixels().getData();
-		unsigned char *val_pixels = val.getPixels().getData();
-
-		for (int i = 0; i < kDetectionWidth * kDetectionHeight; ++i) {
-			if ((hue_pixels[i] >= kHueMin && hue_pixels[i] <= kHueMax)
-					&& (sat_pixels[i] >= kSatMin && sat_pixels[i] <= kSatMax)
-					&& (val_pixels[i] >= kValMin && val_pixels[i] <= kValMax)) {
-				mask_pixels[i] = kWhitePixel;
-			} else {
-				mask_pixels[i] = kBlackPixel;
-			}
-		}
-		
-		target_img.setFromPixels(mask_pixels, kDetectionWidth, kDetectionHeight);
-		target_contour.findContours(target_img, 50, (kDetectionWidth * kDetectionHeight), 1, false, true);
-		
-		//if a target is found
-		if (target_contour.blobs.size() > 0) {
-			ofxCvBlob target = target_contour.blobs[0];
-			target_loc.x = target.centroid.x * (ofGetWidth() / kDetectionWidth);
-			target_loc.y = target.centroid.y * (ofGetWidth() / kDetectionWidth);
-		}
-	}
-	
-
-	if (!is_game_over) {
-		if (ofGetElapsedTimeMillis() - last_time >= cannon_delay) {
-			cannon.FireFruit(fruits);
-			cannon_delay = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
-			last_time = ofGetElapsedTimeMillis();
-		}
-
-		cannon.CheckFruits(fruits, player_hp);
-		if (player_hp == 0) {
-			is_game_over = true;
-		}
-
-		for (auto &fruit : fruits) {
-			fruit.ResetAcc();
-			if (!fruit.IsHit()) {
-				fruit.AddAcc(0, kAccFruitIntact);
-			}
-			else {
-				fruit.AddAcc(0, kAccFruitHit);
-			}
-			fruit.UpdateState();
-		}
-
-		for (auto& fruit : fruits) {
-			float x_diff = target_loc.x - fruit.GetPos().x;
-			float y_diff = target_loc.y - fruit.GetPos().y;
-			float dist_to_fruit = sqrt(pow(x_diff, 2) + pow(y_diff, 2));
-
-			if (dist_to_fruit < kRadius && !fruit.IsHit()) {
-				if (fruit.IsExplosive()) {
-					is_game_over = true;
-					break;
-				}
-
-				++player_pts;
-				fruit.HitFruit();
-			}
-		}
-	}
+  ReadPlayerPosition();
+  ExecuteGameLogic();
 }
 
 void ofApp::draw() {
-	if (!is_game_over) {
-		ofSetColor(ofColor::black);
-		font.drawString("Points: " + std::to_string(player_pts), 6, 60);
-		font.drawString("Lives: " + std::to_string(player_hp), 6, 120);
-		for (const auto &fruit : fruits) {
-			fruit.Draw();
-		}
+  if (!is_game_over_) {
+    ofSetColor(ofColor::black);
+    font_.drawString("Points: " + std::to_string(player_pts_), kPointsXLoc, kPointsYLoc);
+    font_.drawString("Lives: " + std::to_string(player_hp_), kLivesXLoc, kLivesYLoc);
+    for (const auto &fruit : fruits_) {
+      fruit.Draw();
+    }
 
-		//draw tracked object location
-		ofSetColor(ofColor::blue);
-		ofDrawCircle(target_loc.x, target_loc.y, 5);
-	} else {
-		ofSetColor(ofColor::black);
-		font.drawString("Game Over!", 350, 350);
-		font.drawString("You scored " + std::to_string(player_pts) + " points", 260, 420);
-	}
+    //draw tracked object location
+    ofSetColor(ofColor::blue);
+    ofDrawCircle(target_loc_.x, target_loc_.y, kCursorRadius);
+  } else {
+    ofSetColor(ofColor::black);
+    font_.drawString("Game Over!", kGameOverXLoc, kGameOverYLoc);
+    font_.drawString("You scored " + std::to_string(player_pts_) + " points", kPointsFinalXLoc,
+                     kPointsFinalYLoc);
+  }
 }
 
-void ofApp::mouseDragged(int x, int y, int button) {
-	
+void ofApp::ReadPlayerPosition() {
+  webcam_.update();
+  if (webcam_.isFrameNew()) {
+    auto pixels = webcam_.getPixels();
+    pixels.mirror(false, true);
+    webcam_render_.setFromPixels(pixels.getData(), kDetectionWidth, kDetectionHeight);
+
+    webcam_render_.convertRgbToHsv();
+    webcam_render_.convertToGrayscalePlanarImages(hue_, sat_, val_);
+    hue_.flagImageChanged();
+    sat_.flagImageChanged();
+    val_.flagImageChanged();
+
+    unsigned char *hue_pixels = hue_.getPixels().getData();
+    unsigned char *sat_pixels = sat_.getPixels().getData();
+    unsigned char *val_pixels = val_.getPixels().getData();
+
+    for (int i = 0; i < kDetectionWidth * kDetectionHeight; ++i) {
+      if ((hue_pixels[i] >= kHueMin && hue_pixels[i] <= kHueMax)
+          && (sat_pixels[i] >= kSatMin && sat_pixels[i] <= kSatMax)
+          && (val_pixels[i] >= kValMin && val_pixels[i] <= kValMax)) {
+        mask_pixels_[i] = kWhitePixel;
+      } else {
+        mask_pixels_[i] = kBlackPixel;
+      }
+    }
+
+    target_img_.setFromPixels(mask_pixels_, kDetectionWidth, kDetectionHeight);
+    target_contour_.findContours(target_img_, kDetectionMinArea, kDetectionWidth * kDetectionHeight,
+                                 kDetectionZones, false, true);
+
+    //if a target is found
+    if (target_contour_.blobs.size() > 0) {
+      auto target = target_contour_.blobs[0];
+      target_loc_.x = target.centroid.x * (ofGetWidth() / kDetectionWidth);
+      target_loc_.y = target.centroid.y * (ofGetHeight() / kDetectionHeight);
+    }
+  }
+}
+
+void ofApp::ExecuteGameLogic() {
+  if (!is_game_over_) {
+    if (ofGetElapsedTimeMillis() - last_time_ >= cannon_delay_) {
+      cannon_.FireFruit(fruits_);
+      cannon_delay_ = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
+      last_time_ = ofGetElapsedTimeMillis();
+    }
+
+    cannon_.CheckFruits(fruits_, player_hp_); //delete fruits that are out of the screen
+    if (player_hp_ == 0) {
+      is_game_over_ = true;
+    }
+
+    for (auto &fruit : fruits_) {
+      //update fruit location
+      fruit.ResetAcc();
+      if (!fruit.IsHit()) {
+        fruit.AddAcc(0, kAccFruitIntact);
+      } else {
+        fruit.AddAcc(0, kAccFruitHit);
+      }
+      fruit.UpdateState();
+
+      //check if player has sliced fruit
+      float x_diff = target_loc_.x - fruit.GetPos().x;
+      float y_diff = target_loc_.y - fruit.GetPos().y;
+      float dist_to_fruit = sqrt(pow(x_diff, 2) + pow(y_diff, 2));
+
+      if (dist_to_fruit < kRadius && !fruit.IsHit()) {
+        if (fruit.IsExplosive()) {
+          is_game_over_ = true;
+          break;
+        }
+
+        ++player_pts_;
+        fruit.HitFruit();
+      }
+    }
+  }
 }
 
 float ofApp::GetCannonDelayFactor(int elapsed_time) {
-	return 3 / (1 + exp(-0.02 * (elapsed_time / 1000) + 2)) + 0.7;
+  return 3 / (1 + exp(-0.02 * (elapsed_time / 1000) + 2)) + 0.7;
 }
