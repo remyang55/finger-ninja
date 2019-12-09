@@ -41,15 +41,15 @@ class Fruit {
 
   void HitFruit();
 
-  void UpdateState();
-  void Draw() const;
-
   bool IsExplosive() const;
   bool IsHit() const;
   ofVec2f GetPos() const;
   ofVec2f GetVel() const;
   ofVec2f GetAcc() const;
   std::vector<Particle> GetParticles() const;
+
+  void UpdateState();
+  void Draw() const;
 
  private:
   bool is_explosive_;

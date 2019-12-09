@@ -40,7 +40,7 @@ TEST_CASE("Particle position, velocity, and acceleration are added correctly", "
     REQUIRE(particle.GetVel() == ofVec2f{7.2, 8.3});
   }
   SECTION("Acceleration added correctly") {
-    particle.SetAcc(0, 9.81);
+    particle.AddAcc(0, 9.81);
     REQUIRE(particle.GetAcc() == ofVec2f{3.5, 15.81});
   }
 }
