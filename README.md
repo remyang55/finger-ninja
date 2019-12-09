@@ -1,7 +1,7 @@
 # Finger Ninja
 
 Ever dreamt of playing fruit ninja by actually slicing through the air like a real ninja? Well, then this openFrameworks
-implementation -- Finger Ninja -- must just be for you!
+implementation -- Finger Ninja -- might just be for you!
 
 ## Dependencies
 
