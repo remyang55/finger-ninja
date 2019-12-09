@@ -13,6 +13,15 @@ void ofApp::setup() {
   ofSetFrameRate(kFps);
 
   font_.load("kiyana.otf", kFontSize);
+  background_music_.load("background_music.mp3");
+  background_music_.setVolume(0.5); //lower the volume to half the original
+  background_music_.play();
+  background_music_.setLoop(true);
+  fruit_throw_sound_.load("fruit_throw.mp3");
+  bomb_throw_sound_.load("bomb_throw.mp3");
+  fruit_slash_sound_.load("fruit_slash.mp3");
+  hit_bomb_sound_.load("hit_bomb.mp3");
+  hit_bomb_sound_.setVolume(1.5);
 
   player_pts_ = 0;
   player_hp_ = 3;
@@ -31,8 +40,14 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
-  ReadPlayerPosition();
-  ExecuteGameLogic();
+  if (!is_game_over_) {
+    ReadPlayerPosition();
+    ExecuteGameLogic();
+  } else {
+    if (!hit_bomb_sound_.isPlaying()) {
+      background_music_.setPaused(false);
+    }
+  }
 }
 
 void ofApp::draw() {
@@ -96,42 +111,50 @@ void ofApp::ReadPlayerPosition() {
 }
 
 void ofApp::ExecuteGameLogic() {
-  if (!is_game_over_) {
-    if (ofGetElapsedTimeMillis() - last_time_ >= cannon_delay_) {
-      cannon_.FireFruit(fruits_);
-      cannon_delay_ = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
-      last_time_ = ofGetElapsedTimeMillis();
+  if (ofGetElapsedTimeMillis() - last_time_ >= cannon_delay_) {
+
+    //if fired fruit is explosive, play bomb_throw sound, else fruit_throw sound
+    if(cannon_.FireFruit(fruits_)) {
+      bomb_throw_sound_.play();
+    } else {
+      fruit_throw_sound_.play();
     }
+    cannon_delay_ = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
+    last_time_ = ofGetElapsedTimeMillis();
+  }
 
-    cannon_.CheckFruits(fruits_, player_hp_); //delete fruits that are out of the screen
-    if (player_hp_ == 0) {
-      is_game_over_ = true;
+  cannon_.CheckFruits(fruits_, player_hp_); //delete fruits that are out of the screen
+  if (player_hp_ == 0) {
+    is_game_over_ = true;
+  }
+
+  for (auto &fruit : fruits_) {
+    //update fruit location
+    fruit.ResetAcc();
+    if (!fruit.IsHit()) {
+      fruit.AddAcc(0, kAccFruitIntact);
+    } else {
+      fruit.AddAcc(0, kAccFruitHit);
     }
+    fruit.UpdateState();
 
-    for (auto &fruit : fruits_) {
-      //update fruit location
-      fruit.ResetAcc();
-      if (!fruit.IsHit()) {
-        fruit.AddAcc(0, kAccFruitIntact);
-      } else {
-        fruit.AddAcc(0, kAccFruitHit);
+    //check if player has sliced fruit
+    float x_diff = target_loc_.x - fruit.GetPos().x;
+    float y_diff = target_loc_.y - fruit.GetPos().y;
+    float dist_to_fruit = sqrt(pow(x_diff, 2) + pow(y_diff, 2));
+
+    if (dist_to_fruit < kRadius && !fruit.IsHit()) {
+      if (fruit.IsExplosive()) {
+		background_music_.setPaused(true);
+		background_music_.setPosition(0);
+        hit_bomb_sound_.play();
+        is_game_over_ = true;
+        break;
       }
-      fruit.UpdateState();
 
-      //check if player has sliced fruit
-      float x_diff = target_loc_.x - fruit.GetPos().x;
-      float y_diff = target_loc_.y - fruit.GetPos().y;
-      float dist_to_fruit = sqrt(pow(x_diff, 2) + pow(y_diff, 2));
-
-      if (dist_to_fruit < kRadius && !fruit.IsHit()) {
-        if (fruit.IsExplosive()) {
-          is_game_over_ = true;
-          break;
-        }
-
-        ++player_pts_;
-        fruit.HitFruit();
-      }
+      ++player_pts_;
+      fruit_slash_sound_.play();
+      fruit.HitFruit();
     }
   }
 }

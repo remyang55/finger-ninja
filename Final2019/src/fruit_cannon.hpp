@@ -12,7 +12,7 @@ class FruitCannon {
   FruitCannon(int left_bound, int right_bound, int height, int speed, float min_angle,
               float max_angle);
 
-  void FireFruit(std::vector<Fruit> &fruits);
+  bool FireFruit(std::vector<Fruit> &fruits);
   void CheckFruits(std::vector<Fruit> &fruits, int &player_hp);
 
  private:

@@ -1,5 +1,6 @@
 # Project Development Log
 
+* December 09: Added music and sound effects
 * December 08: More game logic and object tracking/gameplay integration
   * Fixed bug of fruit explosion animation
   * Implemented bombs, game over screen, player HP, speed progression

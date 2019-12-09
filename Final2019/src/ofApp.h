@@ -61,6 +61,12 @@ class ofApp : public ofBaseApp {
 
   ofTrueTypeFont font_;
 
+  ofSoundPlayer background_music_;
+  ofSoundPlayer fruit_throw_sound_;
+  ofSoundPlayer bomb_throw_sound_;
+  ofSoundPlayer fruit_slash_sound_;
+  ofSoundPlayer hit_bomb_sound_;
+
   //VARIABLES FOR GAME
   int player_pts_;
   int player_hp_;

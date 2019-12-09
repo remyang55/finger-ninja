@@ -14,7 +14,7 @@ FruitCannon::FruitCannon(int left_bound, int right_bound, int height, int speed,
   max_angle_ = max_angle;
 }
 
-void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
+bool FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
   float x_coord = ofRandom(left_bound_, right_bound_);
   float y_coord = height_;
   float r = speed_;
@@ -30,6 +30,8 @@ void FruitCannon::FireFruit(std::vector<Fruit> &fruits) {
   Fruit fruit{x_coord, y_coord, is_explosive};
   fruit.SetVel(r * cos(theta), -r * sin(theta));
   fruits.push_back(fruit);
+
+  return is_explosive;
 }
 
 void FruitCannon::CheckFruits(std::vector<Fruit> &fruits, int &player_hp) {
