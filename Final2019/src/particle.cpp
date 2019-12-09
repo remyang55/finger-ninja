@@ -43,15 +43,6 @@ void Particle::ResetAcc() {
   a_.set(0, 0);
 }
 
-void Particle::UpdateState() {
-  v_ += a_;  // v = v0 + at
-  s_ += v_;  // s = s0 + vt
-}
-
-void Particle::Draw() const {
-  ofDrawCircle(s_.x, s_.y, particle_radius_);
-}
-
 ofVec2f Particle::GetPos() const {
   return s_;
 }
@@ -62,4 +53,13 @@ ofVec2f Particle::GetVel() const {
 
 ofVec2f Particle::GetAcc() const {
   return a_;
+}
+
+void Particle::UpdateState() {
+  v_ += a_;  // v = v0 + at
+  s_ += v_;  // s = s0 + vt
+}
+
+void Particle::Draw() const {
+  ofDrawCircle(s_.x, s_.y, particle_radius_);
 }

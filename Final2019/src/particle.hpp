@@ -18,12 +18,12 @@ class Particle {
   void AddAcc(float ax, float ay);
   void ResetAcc();
 
-  void UpdateState();
-  void Draw() const;
-
   ofVec2f GetPos() const;
   ofVec2f GetVel() const;
   ofVec2f GetAcc() const;
+
+  void UpdateState();
+  void Draw() const;
 
  private:
   ofVec2f s_;  // position vector
