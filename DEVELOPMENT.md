@@ -1,5 +1,9 @@
 # Project Development Log
 
+* December 08: More game logic and object tracking/gameplay integration
+  * Fixed bug of fruit explosion animation
+  * Implemented bombs, game over screen, player HP, speed progression
+  * Replaced mouse with tracked object on webcam
 * December 07: Object tracking
   * Grabbed live video from the user's webcam
   * Tracked an object of a specific color from the video
