@@ -32,9 +32,9 @@ class Particle {
   void Draw() const;
 
  private:
-  ofVec2f s_;  // position vector
-  ofVec2f v_;  // velocity vector
-  ofVec2f a_;  // acceleration vector
+  ofVec2f pos_;
+  ofVec2f vel_;
+  ofVec2f acc_;
   int particle_radius_;
 };
 

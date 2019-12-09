@@ -13,53 +13,53 @@ Particle::Particle(float sx, float sy, int radius) {
 }
 
 void Particle::SetPos(float sx, float sy) {
-  s_.set(sx, sy);
+  pos_.set(sx, sy);
 }
 
 void Particle::SetVel(float vx, float vy) {
-  v_.set(vx, vy);
+  vel_.set(vx, vy);
 }
 
 void Particle::SetAcc(float ax, float ay) {
-  a_.set(ax, ay);
+  acc_.set(ax, ay);
 }
 
 void Particle::AddPos(float sx, float sy) {
-  s_.x += sx;
-  s_.y += sy;
+  pos_.x += sx;
+  pos_.y += sy;
 }
 
 void Particle::AddVel(float vx, float vy) {
-  v_.x += vx;
-  v_.y += vy;
+  vel_.x += vx;
+  vel_.y += vy;
 }
 
 void Particle::AddAcc(float ax, float ay) {
-  a_.x += ax;
-  a_.y += ay;
+  acc_.x += ax;
+  acc_.y += ay;
 }
 
 void Particle::ResetAcc() {
-  a_.set(0, 0);
+  acc_.set(0, 0);
 }
 
 ofVec2f Particle::GetPos() const {
-  return s_;
+  return pos_;
 }
 
 ofVec2f Particle::GetVel() const {
-  return v_;
+  return vel_;
 }
 
 ofVec2f Particle::GetAcc() const {
-  return a_;
+  return acc_;
 }
 
 void Particle::UpdateState() {
-  v_ += a_;  // v = v0 + at
-  s_ += v_;  // s = s0 + vt
+  vel_ += acc_;  // v = v0 + at
+  pos_ += vel_;  // s = s0 + vt
 }
 
 void Particle::Draw() const {
-  ofDrawCircle(s_.x, s_.y, particle_radius_);
+  ofDrawCircle(pos_.x, pos_.y, particle_radius_);
 }

@@ -28,38 +28,38 @@ Fruit::Fruit(float sx, float sy, bool is_explosive) {
 }
 
 void Fruit::SetPos(float sx, float sy) {
-  float x_diff = sx - s_.x;
-  float y_diff = sy - s_.y;
-  s_.set(sx, sy);
+  float x_diff = sx - pos_.x;
+  float y_diff = sy - pos_.y;
+  pos_.set(sx, sy);
   for (auto &particle : particles_) {
     particle.AddPos(x_diff, y_diff);
   }
 }
 
 void Fruit::SetVel(float vx, float vy) {
-  v_.set(vx, vy);
+  vel_.set(vx, vy);
   for (auto &particle : particles_) {
     particle.SetVel(vx, vy);
   }
 }
 
 void Fruit::SetAcc(float ax, float ay) {
-  a_.set(ax, ay);
+  acc_.set(ax, ay);
   for (auto &particle : particles_) {
     particle.SetAcc(ax, ay);
   }
 }
 
 void Fruit::AddAcc(float ax, float ay) {
-  a_.x += ax;
-  a_.y += ay;
+  acc_.x += ax;
+  acc_.y += ay;
   for (auto &particle : particles_) {
     particle.AddAcc(ax, ay);
   }
 }
 
 void Fruit::ResetAcc() {
-  a_.set(0, 0);
+  acc_.set(0, 0);
   for (auto &particle : particles_) {
     particle.SetAcc(0, 0);
   }
@@ -70,8 +70,8 @@ void Fruit::HitFruit() {
 }
 
 void Fruit::UpdateState() {
-  v_ += a_;  // v = v0 + at
-  s_ += v_;  // s = s0 + vt
+  vel_ += acc_;  // v = v0 + at
+  s_ += vel_;  // s = s0 + vt
 
   if (hit_count_ == kTargetHitCount) {
     ++update_count_;
@@ -111,15 +111,15 @@ bool Fruit::IsHit() const {
 }
 
 ofVec2f Fruit::GetPos() const {
-  return s_;
+  return pos_;
 }
 
 ofVec2f Fruit::GetVel() const {
-  return v_;
+  return vel_;
 }
 
 ofVec2f Fruit::GetAcc() const {
-  return a_;
+  return acc_;
 }
 
 std::vector<Particle> Fruit::GetParticles() const {

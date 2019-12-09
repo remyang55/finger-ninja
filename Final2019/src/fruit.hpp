@@ -56,9 +56,9 @@ class Fruit {
   int hit_count_;
   int update_count_; //number of times update() has been called on the Fruit, after it is hit
 
-  ofVec2f s_;  //position vector
-  ofVec2f v_;  //velocity vector
-  ofVec2f a_;  //acceleration vector
+  ofVec2f pos_; 
+  ofVec2f vel_;
+  ofVec2f acc_;
   std::vector<Particle> particles_; //particles that compose the fruit
 };
 
