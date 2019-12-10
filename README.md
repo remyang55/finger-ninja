@@ -17,8 +17,9 @@ implementation -- Finger Ninja -- might just be for you!
 ## Gameplay
 
 Currently, the way the program tracks your finger is via the color yellow. To play the game, simply obtain a small yellow
-ball and hold it in your hand, in view of your webcam. If you would like to use a different colored object, open up
-`src/ofApp.h` and change the HSV range accordingly.
+ball and hold it in your hand, in view of your webcam. For the program to work nicely, it is important to have a relatively 
+strong contrast in color between the tracked object and your surroundings. If you would like to use a different colored 
+object, open up `src/ofApp.h` and change the HSV range accordingly.
 
 * Move your hand around to wave your "sword" and slice the orange fruits that pop up
 * Make sure to avoid the black balls (bombs!)
