@@ -71,7 +71,7 @@ void Fruit::HitFruit() {
 
 void Fruit::UpdateState() {
   vel_ += acc_;  // v = v0 + at
-  s_ += vel_;  // s = s0 + vt
+  pos_ += vel_;  // s = s0 + vt
 
   if (hit_count_ == kTargetHitCount) {
     ++update_count_;
