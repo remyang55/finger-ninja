@@ -145,8 +145,8 @@ void ofApp::ExecuteGameLogic() {
 
     if (dist_to_fruit < kRadius && !fruit.IsHit()) {
       if (fruit.IsExplosive()) {
-		background_music_.setPaused(true);
-		background_music_.setPosition(0);
+        background_music_.setPaused(true);
+        background_music_.setPosition(0);
         hit_bomb_sound_.play();
         is_game_over_ = true;
         break;
