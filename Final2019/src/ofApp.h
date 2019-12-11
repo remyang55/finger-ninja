@@ -31,6 +31,8 @@ constexpr int kGameOverYLoc = 350;
 constexpr int kPointsFinalXLoc = 260;
 constexpr int kPointsFinalYLoc = 420;
 
+constexpr int kInitialPlayerHp = 3;
+
 constexpr int kCannonDelayInitial = 2000; //in milliseconds
 constexpr int kCannonHeightBelowScreen = 5; //must be less than radius of a fruit
 constexpr int kCannonSpeed = 20; //how fast fruits are fired
@@ -53,6 +55,7 @@ class ofApp : public ofBaseApp {
   void setup();
   void update();
   void draw();
+  void keyReleased(int key);
 
  private:
   void ReadPlayerPosition();
@@ -60,6 +63,8 @@ class ofApp : public ofBaseApp {
   float GetCannonDelayFactor(int elapsed_time); //elapsed_time in milliseconds
 
   ofTrueTypeFont font_;
+
+  ofImage background_img_;
 
   ofSoundPlayer background_music_;
   ofSoundPlayer fruit_throw_sound_;
@@ -77,6 +82,7 @@ class ofApp : public ofBaseApp {
                       kCannonSpeed, kCannonMinAngle, kCannonMaxAngle};
   int cannon_delay_; //in milliseconds
   float last_time_; //the last time the cannon was fired
+  float game_start_time_; //needed to allow user to replay (keeps track of time for current game)
 
   //VARIABLES FOR OBJECT TRACKING
   ofVideoGrabber webcam_;

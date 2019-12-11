@@ -1,5 +1,6 @@
 # Project Development Log
 
+* December 10: Added option to allow user to replay game, added background image
 * December 09: Added music and sound effects, wrote unit tests
 * December 08: More game logic and object tracking/gameplay integration
   * Fixed bug of fruit explosion animation

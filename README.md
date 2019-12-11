@@ -24,6 +24,7 @@ object, open up `src/ofApp.h` and change the HSV range accordingly.
 * Move your hand around to wave your "sword" and slice the orange fruits that pop up
 * Make sure to avoid the black balls (bombs!)
 * The game is over once you hit a bomb, or miss three orange fruits
+* To replay, simply press the "Enter" key once
 
 ## Project Purpose
 

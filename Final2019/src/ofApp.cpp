@@ -13,6 +13,8 @@ void ofApp::setup() {
   ofSetFrameRate(kFps);
 
   font_.load("kiyana.otf", kFontSize);
+  background_img_.load("background_img.png");
+  background_img_.resize(ofGetWidth(), ofGetHeight());
   background_music_.load("background_music.mp3");
   background_music_.setVolume(0.5); //lower the volume to half the original
   background_music_.play();
@@ -24,10 +26,11 @@ void ofApp::setup() {
   hit_bomb_sound_.setVolume(1.5);
 
   player_pts_ = 0;
-  player_hp_ = 3;
+  player_hp_ = kInitialPlayerHp;
   is_game_over_ = false;
   cannon_delay_ = kCannonDelayInitial;
   last_time_ = 0;
+  game_start_time_ = 0;
 
   webcam_.setup(kDetectionWidth, kDetectionHeight);
   webcam_render_.allocate(kDetectionWidth, kDetectionHeight);
@@ -51,8 +54,10 @@ void ofApp::update() {
 }
 
 void ofApp::draw() {
+  ofSetColor(255);
+  background_img_.draw(0, 0);
   if (!is_game_over_) {
-    ofSetColor(ofColor::black);
+    ofSetColor(ofColor::white);
     font_.drawString("Points: " + std::to_string(player_pts_), kPointsXLoc, kPointsYLoc);
     font_.drawString("Lives: " + std::to_string(player_hp_), kLivesXLoc, kLivesYLoc);
     for (const auto &fruit : fruits_) {
@@ -63,10 +68,22 @@ void ofApp::draw() {
     ofSetColor(ofColor::blue);
     ofDrawCircle(target_loc_.x, target_loc_.y, kCursorRadius);
   } else {
-    ofSetColor(ofColor::black);
+    ofSetColor(ofColor::white);
     font_.drawString("Game Over!", kGameOverXLoc, kGameOverYLoc);
     font_.drawString("You scored " + std::to_string(player_pts_) + " points", kPointsFinalXLoc,
                      kPointsFinalYLoc);
+  }
+}
+
+void ofApp::keyReleased(int key) {
+  if (key == OF_KEY_RETURN && is_game_over_) {
+    is_game_over_ = false;
+    player_hp_ = kInitialPlayerHp;
+    player_pts_ = 0;
+    cannon_delay_ = kCannonDelayInitial;
+    last_time_ = 0;
+    game_start_time_ = ofGetElapsedTimeMillis();
+    fruits_.clear();
   }
 }
 
@@ -114,12 +131,13 @@ void ofApp::ExecuteGameLogic() {
   if (ofGetElapsedTimeMillis() - last_time_ >= cannon_delay_) {
 
     //if fired fruit is explosive, play bomb_throw sound, else fruit_throw sound
-    if(cannon_.FireFruit(fruits_)) {
+    if (cannon_.FireFruit(fruits_)) {
       bomb_throw_sound_.play();
     } else {
       fruit_throw_sound_.play();
     }
-    cannon_delay_ = kCannonDelayInitial / GetCannonDelayFactor(ofGetElapsedTimeMillis());
+    int elapsed_game_time = ofGetElapsedTimeMillis() - game_start_time_;
+    cannon_delay_ = kCannonDelayInitial / GetCannonDelayFactor(elapsed_game_time);
     last_time_ = ofGetElapsedTimeMillis();
   }
 
